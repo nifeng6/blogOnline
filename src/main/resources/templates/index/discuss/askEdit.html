@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script th:src="@{/js/jquery-3.4.1.js}"></script>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.js"></script>
+    <script th:src="@{/js/editormd.min.js}"></script>
+    <script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/3.4.1/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/3.4.1/css/bootstrap.css">
+    <link rel="stylesheet" th:href="@{/css/editormd.min.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/ask.css}">
+    <script src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
+
+    <title>首页 - 倪风的博客</title>
+    <style>
+
+    </style>
+</head>
+<body>
+<div th:replace="index/command :: nav"></div>
+
+<div class="main container">
+    <div class="col-md-9 col-sm-12 col-xs-12" style="padding: 20px;">
+        <h3>
+            <span class="glyphicon glyphicon-plus"></span>
+            <span>编辑文章</span>
+        </h3>
+        <hr style="margin: 10px auto;">
+        <form>
+            <div class="form-group">
+                <label for="title">问题标题（简单扼要）:</label>
+                <div class="form-ask">
+                    <input th:value="${askAccess.title}" type="text" class="form-control col-lg-9 col-md-11 col-sm-3" value="" style="width: 73%;" id="title" name="title" placeholder="问题标题……" autocomplete="off">
+                    <select class="form-control col-lg-3 col-md-2 col-sm-2 askSot" style="width: 25%;float: right;">
+                        <option value="0">选择分类</option>
+                        <option value="1">提问</option>
+                        <option value="2">分享</option>
+                        <option value="3">讨论</option>
+                        <option value="4">建议</option>
+                        <option value="5">BUG</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="title">标签 :</label>
+                <div class="sf-typeHelper sf-typeHelper--fortags" id="tags">
+
+                    <input type="text" data-role="sf_typeHelper-input" class="sf-typeHelper-input" placeholder="点击选择标签，限制选择5个标签~" style="width: 19em;">
+                    <ul class="sf-typeHelper-list dropdown-menu" style="display: none; left: 5px;"></ul>
+                </div>
+
+
+                <div role="tabpanel" class="techTags panel panel-default techTags-panel" style="display: none; left: 15px;">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" th:each="blogtag : ${blogtags}" th:if="${blogtag.path} eq '0'"><a th:href="|#${blogtag.name}|" aria-controls="type" role="tab" data-toggle="tab" th:text="${blogtag.name}">开发语言</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane" th:each="blogtag : ${blogtags}" th:id="${blogtag.name}">
+                            <ul class="taglist--inline">
+                                <li class="mb5" th:each="tag : ${tags}" th:if="${blogtag.id} eq ${tag.path}">
+                                    <a class="tag" href="javascript: void(0);" th:text="${tag.name}">
+                                        javascript
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="test1"></div>
+                <script>
+                    //初始化标签选择
+                    $("[href='#开发语言']").parent("li").addClass("active")
+                    $("#开发语言").addClass("active")
+
+                    $(document).on("click",".sf-typeHelper-input",tagchoice)
+                    function tagchoice() {
+                        // alert()
+
+                        if ($(".techTags").css("display")=="none"){
+                            $(".techTags").css("display","block")
+
+                        }else {
+                            $(".techTags").css("display","none")
+                        }
+
+                    }
+
+                    // $(".sf-typeHelper-input").blur(function () {
+                    //     $(".techTags").css("display","none")
+                    // });
+
+                    $(".tag").on("click",function () {
+                        var tag = $(this).text().replace(/\s+/g,"");
+                        var lists = new Array();
+                        if ($(".savaTag").length<5){
+                            $(".savaTag").each(function () {
+                                lists.push($(this).html().toString())
+                            });
+                            var a = lists.indexOf(tag);
+                            if (a == -1){
+                                $(".sf-typeHelper-input").before("<span class=\"sf-typeHelper-item\"><span class=\"savaTag\">"+tag+"</span><span class=\"remove-tag\">×</span></span>")
+                            }
+                        }
+                    })
+
+                    $(document).on("click",'.remove-tag',delTag);
+                    function delTag() {
+                        $(this).parent('span').remove();
+                    }
+                </script>
+
+            </div>
+
+
+            <div class="form-group" style="position: relative;z-index: 1">
+                <div id="ask-editor">
+                    <div id="div1"></div>
+                </div>
+                <script src="/js/HtmlUtil.js"></script>
+                <script type="text/javascript">
+                    var E = window.wangEditor
+                    var editor = new E('#div1')
+                    editor.customConfig.uploadImgServer = '/upload/markDownImgUpload'
+                    editor.customConfig.uploadFileName = 'editormd-image-file'
+                    editor.create()
+                    var textre = HtmlUtil.htmlDecodeByRegExp("[[ ${askAccess.content} ]]");
+                    editor.txt.html(textre)
+                </script>
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary" onclick="askbtn()"><span class="glyphicon glyphicon-ok"></span> 编辑</button>
+                <a type="button" class="btn btn-default" style="margin-left: 10px;" href="/"><span
+                        class="glyphicon glyphicon-remove"></span> 取消
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-3 col-sm-12 col-xs-12 main-right">
+        <div>
+            <h4><span class="glyphicon glyphicon-user"></span> 问题发起指南</h4>
+            <span>
+                • 问题标题: 请用精简的语言描述您发布的问题，不超过25字<br>
+                • 问题补充: 详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料<br>
+                • 选择标签: 选择一个或者多个合适的标签，用逗号隔开，每个标签不超过10个字
+            </span>
+        </div>
+    </div>
+</div>
+
+<div th:replace="index/command :: footer"></div>
+
+<script>
+
+    var list= new Array();
+    $(".askSot").val([[ ${askAccess.sort_id} ]])
+    list = "[[ ${askAccess.cates} ]]".split(",")
+    for (var i=0;i<list.length;i++){
+        $(".sf-typeHelper-input").before("<span class=\"sf-typeHelper-item\"><span class=\"savaTag\">"+list[i]+"</span><span class=\"remove-tag\">×</span></span>")
+    }
+
+</script>
+
+<script>
+    function askbtn() {
+        var title = $("#title").val();
+        // var areaContent = $("#areaContent").val();
+        var tags = new Array();
+        var areaContent = editor.txt.html();
+        var askSot = $(".askSot").find("option:selected").val()
+
+        $(".savaTag").each(function () {
+            tags.push($(this).html());
+        });
+
+        if(title==null||title.trim()==""){
+            layer.alert("标题不能为空");
+            return;
+        }else if(askSot=='0'){
+            layer.alert("请选择文章分类");
+            return;
+        }else if(areaContent==null||areaContent.trim()==""){
+            layer.alert("请输入文章内容");
+            return;
+        }else if (tags==null||tags==""){
+            layer.alert("请选择至少一个标签");
+            return;
+        }
+
+        $.post('/askEdit',{
+            "id":[[ ${askAccess.id} ]],
+            "title":title,
+            "content":areaContent,
+            "cates":tags.toString(),
+            "sortId":askSot
+        },function (result) {
+            if (result.success){
+                layer.alert("编辑成功",function (index) {
+                    window.location.href="/discuss"
+                });
+
+            }else{
+                layer.alert("编辑失败")
+            }
+        })
+
+
+    }
+</script>
+</body>
+</html>

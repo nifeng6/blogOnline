@@ -1,0 +1,306 @@
+.i-nav {
+    width: 200px;
+    border-right: 1px solid #ececec;
+    border-left: 1px solid #ececec;
+    padding: 35px 0;
+}
+.left {
+    float: left;
+}
+
+.i-nav ul li {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.i-nav ul li a {
+    display: block;
+    height: 45px;
+    line-height: 45px;
+    font-size: 16px;
+    position: relative;
+    transition: 0.2s all;
+}
+
+.i-nav ul li a:hover {
+    color: #5298ff;
+}
+
+.i-nav a {
+    color: #333;
+    text-decoration: none;
+}
+
+.hover a{
+    color: #5298ff;
+}
+
+.i-content {
+    padding-bottom: 90px;
+}
+.i-content {
+    padding: 35px 0px;
+    /*width: calc(100% - 200px);*/
+    padding-left: 60px;
+}
+.right {
+    height: 175px;
+}
+
+.i-info {
+    margin: 15px 0;
+    margin-bottom: 20px;
+}
+
+.i-info .info-img {
+    float: left;
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+}
+
+.i-info .info-img:before {
+    content: " ";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.28);
+    transition: 0.5s all;
+    border-radius: 50%;
+}
+
+.i-info .imguser:hover .info-img:before  {
+    opacity: 1;
+}
+
+.i-info .imguser:hover .info-img:after {
+    opacity: 1;
+}
+
+.i-info .info-img:after {
+    content: "更换头像";
+    border-radius: 50%;
+    position: absolute;
+    transition: 0.5s all;
+    top: 50%;
+    left: 50%;
+    color: white;
+    text-align: center;
+    border: 1px solid white;
+    width: 70px;
+    height: 24px;
+    transform: translate(-50%, -50%);
+    border-radius: 3px;
+    font-size: 13px;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.i-info .info-img img{
+    width: 80px;
+    height: 80px;
+}
+
+.i-info .info-info {
+    float: right;
+    margin-top: 12px;
+    width: calc(100% - 135px);
+}
+
+.info-info .nick {
+    font-size: 19px;
+    font-weight: 500;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /*overflow: hidden;*/
+}
+
+.i-info .info-info .intr {
+    font-size: 16px;
+    color: #616161;
+    line-height: 26px;
+    padding: 5px 0px;
+    margin-top: 7px;
+}
+
+.i-info .info-info .nick b {
+    font-weight: normal;
+    font-size: 15px;
+    border: 1px solid #ffaf1e;
+    height: 26px;
+    display: inline-block;
+    line-height: 26px;
+    vertical-align: middle;
+    padding: 0px 10px;
+    color: #ffaf1e;
+    margin-left: 13px;
+    margin-top: -4px;
+    border-radius: 15px;
+    cursor: default;
+}
+
+.title {
+    position: relative;
+    border-bottom: 0;
+
+    height: 45px;
+    line-height: 35px;
+    text-indent: 21px;
+    font-size: 17px;
+    border-bottom: 1px solid #F6F6F6;
+}
+
+.title:after {
+    content: " ";
+    position: absolute;
+    height: 17px;
+    width: 0;
+    border: 1.5px solid #5298ff;
+    left: 0;
+    border-radius: 9px;
+    top: 8px;
+}
+
+.gaikuo {
+    margin-top: 8px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ececec;
+    padding-bottom: 40px;
+}
+
+.gaikuo b {
+    width: 21.25%;
+    float: left;
+    font-size: 37px;
+    font-weight: normal;
+    height: 50px;
+    line-height: 50px;
+    font-family: arial;
+    color: #4c4c4c;
+    margin-right: 5%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.gaikuo .bx {
+    font-weight: normal;
+    font-size: 15px;
+    height: 40px;
+    margin-top: 5px;
+    line-height: 40px;
+    color: #737373;
+    font-family: "å¾®è½¯é›…é»‘";
+}
+
+.gaikuo b {
+    width: 20%;
+    float: left;
+    font-size: 37px;
+    font-weight: normal;
+    height: 50px;
+    line-height: 50px;
+    font-family: arial;
+    color: #4c4c4c;
+    margin-right: 5%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.gaikuo .bx img {
+    display: inline-block;
+    vertical-align: middle;
+    width: 22px;
+    height: 22px;
+    margin-right: 10px;
+    margin-top: -2px;
+}
+
+.my-info {
+    padding-left: 21px;
+    margin-top: 15px;
+}
+
+.my-info li {
+    line-height: 45px;
+    height: 45px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.my-info li h3 {
+    float: left;
+    max-width: 45%;
+    text-overflow: ellipsis;
+    display: contents;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 16px;
+}
+
+.my-info li span {
+    float: right;
+    max-width: 45%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: right;
+    font-size: 16px;
+}
+
+.i-content .goChange {
+    text-decoration: none;
+    display: block;
+    margin-left: 21px;
+    height: 47px;
+    line-height: 47px;
+    background: #5298ff;
+    color: #FFF;
+    border-radius: 5px;
+    width: 240px;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 15px;
+    transition: 0.2s all;
+}
+
+.form-horizontal .control-label  {
+     padding-top: 2px;
+}
+
+.form-control {
+    border-radius: 2px;
+    border: 1px solid #e6e6e6;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.control-label{
+    font-size: 14px;
+    /*color:#929292;*/
+}
+
+.imgUpdate div{
+    width: 180px;
+    height: 180px;
+    display: inline-block;
+}
+
+#selectImg{
+    text-align: center;
+    display: block;
+    height: 100%;
+    background-image: url(https://blogimg-1256098337.cos.ap-chengdu.myqcloud.com/QQ%E6%88%AA%E5%9B%BE20190914224421.png);
+    overflow: hidden;
+    background-size: cover;
+}

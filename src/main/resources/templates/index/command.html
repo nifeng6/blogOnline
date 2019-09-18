@@ -1,0 +1,117 @@
+<!--导航-->
+<nav class="navbar navbar-default" th:fragment="nav">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">下拉按钮</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">倪风的博客</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="navtitle"><a href="/">首页</a></li>
+                <li class="navtitle"><a href="/discuss">问答</a></li>
+                <li class="navtitle"><a href="/tools/CodeOnline">在线编程</a></li>
+
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <form class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="查找问题">
+                        <button type="submit" class="btn btn-default">搜索</button>
+                    </div>
+
+                </form>
+                <li><a href="#" shiro:user>通知</a></li>
+                <li class="dropdown" shiro:user>
+                    <a href="#" class="dropdown-toggle" id="usernameDisplay" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <img class="img-rounded" th:src="${session.currentUser.img}" style="width: 20px;margin-top: -3px;">
+                        <span th:text="${session.currentUser.name}"></span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" id="gerenzhongixn">我的主页</a></li>
+                        <li><a href="#" id="myzone">个人中心</a></li>
+                        <li id="uid" style="display: none"><shiro:principal property='id'/></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/logout">登出</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <div class="navbar-form navbar-left" shiro:guest>
+                        <a type="button" class="btn btn-primary" href="/login">登录</a>
+                        <a type="button" class="btn btn-default" href="/register">注册</a>
+                    </div>
+                </li>
+            </ul>
+            <script>
+                var userid =$("#uid").text();
+                $("#gerenzhongixn").attr("href","/person/"+userid);
+                $("#myzone").attr("href","/user/"+userid);
+            </script>
+        </div>
+    </div>
+</nav>
+
+
+
+
+
+尾部导航
+<div id="footer" class="col-sm-12 col-md-12 col-xs-12" th:fragment="footer">
+    <div>
+        <div style="font-size: 14px;cursor:pointer;font-family: 楷体; color: #fff;margin-bottom: 10px;" id="sitetime">本站已苟活：0 年 0 天 z 小时 24 分钟 28 秒</div>
+            <a href=""><img th:src="@{/images/tencent.png}" alt=""></a>
+            <a href="">合作</a>
+            <a href="">友情链接</a>
+            <a href="">友情链接</a>
+            <a href="">友情链接</a>
+            <a href="">友情链接</a>
+            <a href="">友情链接</a>
+            <a href="">友情链接</a>
+            <a href="">友情链接</a>
+        <div>Copyright © 2018 - 2019 CodeTip. All Rights Reserved</div>
+        <script language="javascript">
+            function siteTime() {
+                window.setTimeout("siteTime()", 1000);
+                var seconds = 1000;
+                var minutes = seconds * 60;
+                var hours = minutes * 60;
+                var days = hours * 24;
+                var years = days * 365;
+                var today = new Date();
+                var todayYear = today.getFullYear();
+                var todayMonth = today.getMonth() + 1;
+                var todayDate = today.getDate();
+                var todayHour = today.getHours();
+                var todayMinute = today.getMinutes();
+                var todaySecond = today.getSeconds();
+                /* Date.UTC() -- 返回date对象距世界标准时间(UTC)1970年1月1日午夜之间的毫秒数(时间戳)
+                year - 作为date对象的年份，为4位年份值
+                month - 0-11之间的整数，做为date对象的月份
+                day - 1-31之间的整数，做为date对象的天数
+                hours - 0(午夜24点)-23之间的整数，做为date对象的小时数
+                minutes - 0-59之间的整数，做为date对象的分钟数
+                seconds - 0-59之间的整数，做为date对象的秒数
+                microseconds - 0-999之间的整数，做为date对象的毫秒数 */
+                var t1 = Date.UTC(2019, 9, 11, 00, 00, 00); //北京时间2016-12-1 00:00:00
+                var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                var diff = t2 - t1;
+                var diffYears = Math.floor(diff / years);
+                var diffDays = Math.floor((diff / days) - diffYears * 365);
+                var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) / minutes);
+                var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours - diffMinutes * minutes) / seconds);
+                document.getElementById("sitetime").innerHTML = "本站已苟活：" + diffYears + " 年 " + diffDays + " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+            }
+            siteTime();
+        </script>
+    </div>
+</div>

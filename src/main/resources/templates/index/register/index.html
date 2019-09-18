@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="js/jquery-3.4.1.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/register.css">
+    <script src="js/gt.js"></script>
+    <title>用户注册 - 倪风的博客</title>
+</head>
+<body>
+<div th:replace="index/command :: nav"></div>
+
+<div class="main">
+    <form>
+        <div class="form-group">
+            <label for="username">账号</label>
+            <input type="text" class="form-control" id="username" placeholder="username">
+        </div>
+        <div class="form-group">
+            <label for="email">邮箱</label>
+            <input type="email" class="form-control" id="email" placeholder="@email">
+        </div>
+        <div class="form-group">
+            <label for="password">密码</label>
+            <input type="password" class="form-control" id="password" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label for="repwd">确认密码</label>
+            <input type="password" class="form-control" id="repwd" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label for="repwd">用户验证</label>
+            <div id="captcha2">
+                <p id="wait2">正在加载验证码......</p>
+            </div>
+        </div>
+        <button type="button" class="btn btn-default" onclick="register()">注册</button>
+    </form>
+</div>
+
+<div th:replace="index/command :: footer"></div>
+<script>
+
+    var capcha;
+
+    var handler2 = function (captchaObj) {
+
+        capcha = captchaObj;
+
+        // 将验证码加到id为captcha的元素里，同时会有三个input的值用于表单提交
+        captchaObj.appendTo("#captcha2");
+        captchaObj.onReady(function () {
+            $("#wait2").hide();
+        });
+        // 更多接口参考：http://www.geetest.com/install/sections/idx-client-sdk.html
+    };
+    function register() {
+        var username = $("#username").val();
+        var password = $("#password").val();
+        var email = $("#email").val();
+        var repwd = $("#repwd").val();
+        var yzresult = capcha.getValidate();
+        var reg = /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/; //正则表达式
+        if (username==null||username===""){
+            layer.msg("请输入用户名！");
+            return
+        }else if (username.length<3){
+            layer.msg("用户名应大于3个字符！");
+            return;
+        }
+        if (!yzresult){
+            layer.alert("验证不通过哦~")
+            return;
+        }
+        if (password==null||password===""){
+            layer.msg("请输入密码！");
+            return
+        }else if(password.length<6){
+            layer.msg("密码应大于6个字符！")
+        }
+        if (email==null||email===""){
+            layer.msg("请输入邮箱！");
+            return
+        }else if(!reg.test(email)){ //正则验证不通过，格式不对
+            layer.msg("请输入正确的邮箱！");
+            return;
+        }
+        if (!password==repwd){
+            layer.msg("两次密码不同步！");
+            return
+        }
+
+        $.post("/reg",{
+            "username":username,
+            "password":password,
+            "email":email,
+            geetest_challenge: yzresult.geetest_challenge,
+            geetest_validate: yzresult.geetest_validate,
+            geetest_seccode: yzresult.geetest_seccode
+        },function (result) {
+            if (result.success){
+                layer.alert("注册成功，请登入",function () {
+                    window.location.href="/login"
+                })
+            }else if(result.user){
+                layer.msg("用户名已存在，请重新输入用户名！")
+                return
+            }
+
+
+        })
+
+    }
+
+
+    $.ajax({
+        url: "/user/register?t=" + (new Date()).getTime(), // 加随机数防止缓存
+        type: "get",
+        dataType: "json",
+        success: function (data) {
+            // 调用 initGeetest 初始化参数
+            // 参数1：配置参数
+            // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它调用相应的接口
+            initGeetest({
+                gt: data.gt,
+                challenge: data.challenge,
+                new_captcha: data.new_captcha, // 用于宕机时表示是新验证码的宕机
+                offline: !data.success, // 表示用户后台检测极验服务器是否宕机，一般不需要关注
+                product: "popup", // 产品形式，包括：float，popup
+                width: "100%"
+                // 更多配置参数请参见：http://www.geetest.com/install/sections/idx-client-sdk.html#config
+            }, handler2);
+        }
+    });
+</script>
+<script>
+
+
+</script>
+</body>
+</html>

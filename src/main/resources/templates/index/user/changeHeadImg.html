@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script th:src="@{/js/jquery-3.4.1.js}"></script>
+    <script th:src="@{/js/vue.js}"></script>
+    <script th:src="@{/lib/bootstrap/js/bootstrap.js}"></script>
+    <script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
+    <link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/user.css}">
+    <script th:src="@{/js/jqPaginator.js}"></script>
+    <script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
+
+    <title>倪风 - 用户中心</title>
+</head>
+<body>
+<div th:replace="index/command :: nav"></div>
+
+    <div class="main container">
+        <div th:replace="index/user/index :: left"></div>
+        <div class="col-md-10 col-sm-9 col-xs-9">
+            <form id="accessHeadImg">
+                <div style="width: 380px;margin: 0 auto;margin-top: 70px;" class="imgUpdate clearfix">
+                    <div style="margin-right: 20px;background: #f1f2f5;float: left;position: relative;">
+                        <div class="image-preview-input" style=" position: relative;display: inline-block;overflow: hidden;">
+                            <span id="selectImg"></span>
+                            <input type="file" accept="image/png, image/jpeg, image/gif" style="position: absolute;right: 0;top: 0;-ms-filter: 'alpha(opacity=0)';font-size: 200px;cursor: pointer;" name="input-file-preview"/> <!-- rename it -->
+                        </div>
+                    </div>
+
+                    <div style="border-left: 2px solid #eee;float: left;">
+                        <div class="input-group " style="margin-left: 40px;height: 100px;width: 100px;border-radius: 50%;overflow: hidden;background-size: cover;margin-top: 35px;">
+                            <img id="dynamic" th:src="${user.img}" style="width: 100%;height: 100%;">
+                        </div>
+                        <div style="text-align: center;margin-top:3px;font-size:12px;color: #99a2aa">当前头像</div>
+                    </div>
+
+                </div>
+                <p data-v-15325571="" style="font-size:12px;line-height: 16px;color: #99a2aa;text-align: center;margin-top: 60px;" class="descript">请选择图片上传：大小180 * 180像素支持JPG、PNG等格式，图片需小于2M</p>
+                <div class="i-content" style="margin-left: 250px;">
+                    <a href="#" class="goChange">提交更新</a>
+<!--                <input type="submit" value="提交更新">-->
+                </div>
+            </form>
+
+            <script>
+                $(".user-left").each(function (index) {
+                    if ($(this).text().trim()=="更换头像"){
+                        $(this).addClass("hover")
+                    }
+                })
+                $(".goChange").click(function () {
+                    var submitImg = new FormData($("#accessHeadImg")[0]);
+
+                    $.ajax({
+                        url: '/upload/accessHeadImg',
+                        type: 'POST',
+                        cache: false,
+                        data: submitImg,
+                        processData: false,
+                        contentType: false
+                    }).done(function(result) {
+                        if (result){
+                            layer.alert("😀修改成功了呦~")
+                        }else {
+                            layer.alert("😔修改失败了")
+                        }
+                    });
+
+                })
+            </script>
+
+            <div class="image-preview"></div>
+
+
+
+            <script>
+
+
+                $(function() {
+                    // Create the close button
+                    var closebtn = $('<button/>', {
+                        type:"button",
+                        text: 'x',
+                        id: 'close-preview',
+                        style: 'font-size: initial;',
+                    });
+                    // closebtn.attr("class","close pull-right");
+                    // Set the popover default content
+                    $('.image-preview').popover({
+                        trigger:'manual',
+                        html:true,
+                        title: "",
+                        content: "",
+                        placement:''
+                    });
+                    // Clear event
+
+                    // Create the preview image
+                    $(".image-preview-input input:file").change(function (){
+                        var img = $('<img/>', {
+                            id: 'dynamic',
+                            width:250,
+                            height:200
+                        });
+                        var file = this.files[0];
+                        var reader = new FileReader();
+                        // Set preview image into the popover data-content
+                        reader.onload = function (e) {
+                            // $(".image-preview-input-title").text("Change");
+                            // $(".image-preview-clear").show();
+                            // $(".image-preview-filename").val(file.name);
+                            // img.attr('src', e.target.result);
+                            $("#dynamic").attr("src",e.target.result);
+                            // $(".image-preview").attr("data-content",$(img)[0].outerHTML).popover("show");
+                        }
+                        reader.readAsDataURL(file);
+                    });
+
+
+                });
+            </script>
+
+        </div>
+    </div>
+
+<div th:replace="index/command :: footer"></div>
+</body>
+</html>

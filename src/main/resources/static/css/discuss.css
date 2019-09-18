@@ -1,0 +1,116 @@
+.adminicon{
+    height: 25px;
+    width: 25px;
+    margin-bottom: 6px;
+    border-radius: 100%;
+}
+
+.siteFont{
+    font-size: 24px;
+    display: inline-block;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.site-host{
+    border-bottom: 1px solid #e6e6e6;
+    overflow: hidden;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    /*padding: 0 15px;*/
+}
+
+
+.boxContent{
+    padding: 18px 24px;
+    background-color: white;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.title{
+    color: #00AAC7;
+    font-size: 18px;
+}
+
+.summary{
+    margin-bottom: 4px;
+    color: #8a8a8a;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.user_img img{
+    height: 24px;
+    width: 24px;
+    border-radius: 100%;
+}
+
+.name{
+    font-size: 14px;
+    color: #8a8a8a;
+    line-height: 24px;
+}
+
+.floatR{
+    padding-left: 65px;
+    font-size: 14px;
+    color: #8a8a8a;
+    margin-top: 5px;
+}
+
+.carousel-control.left {
+    background-image: none;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);
+    background-repeat: repeat-x;
+}
+.carousel-control.right {
+    background-image: none;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1);
+    background-repeat: repeat-x;
+}
+
+#myCarousel{
+    /*border-bottom: 1px solid #eee;*/
+    /*padding: 0;*/
+    /*padding-bottom: 20px;*/
+}
+
+.hot_tag {
+    text-decoration-line: none;
+    cursor: pointer;
+    display: inline-block;
+    height: 20px;
+    line-height: 16px;
+    padding: 2px 5px;
+    background-color: #99cfff;
+    font-size: 12px;
+    color: #fff !important;
+    border-radius: 4px;
+    margin: 3px;
+}
+
+.hot_tag:hover {
+    background-color: deepskyblue;
+}
+
+.hot_tag a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.rightlist li a {
+    font-family: '微软雅黑';
+    color: #303030;
+}
+
+.rightlist li {
+    font-size: 13px;
+    cursor: pointer;
+    color: #3d3d3d;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+

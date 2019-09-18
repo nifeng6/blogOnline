@@ -1,0 +1,29 @@
+.person-bg{
+    background-image: url("https://blogimg-1256098337.cos.ap-chengdu.myqcloud.com/cb1c3ef50e22b6096fde67febe863494caefebad.png");
+}
+
+.person-img{
+    height: 125px;
+    width: 125px;
+    margin: -85px 0px 0px 40px;
+}
+
+.person-stu{
+    padding: 0 5px;
+    font-size: 14px;
+}
+
+
+.boxContent {
+    padding: 18px 24px;
+    background-color: white;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.title {
+    color: #3d3d3d;
+    font-size: 20px;
+    font-weight: bold;
+    display: inline-block;
+}
+

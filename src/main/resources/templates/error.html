@@ -1,0 +1,60 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script th:src="@{/js/jquery-3.4.1.js}"></script>
+    <script th:src="@{/js/vue.js}"></script>
+    <script th:src="@{/lib/bootstrap/js/bootstrap.js}"></script>
+    <link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <script th:src="@{/js/jqPaginator.js}"></script>
+
+    <title>错误 - 倪风的博客</title>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">下拉按钮</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">倪风的博客</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="navtitle"><a href="/">首页</a></li>
+                <li class="navtitle"><a href="/discuss">问答</a></li>
+
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <form class="navbar-form navbar-left">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="查找问题">
+                        <button type="submit" class="btn btn-default">搜索</button>
+                    </div>
+
+                </form>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    <div class="container main">
+        <div class="jumbotron" style="background-color: white;">
+            <h1>吼吼~页面或文章不存在哦~</h1>
+            <p><a class="btn btn-primary btn-lg" href="/" role="button">回到首页</a></p>
+        </div>
+    </div>
+
+<div th:replace="index/command :: footer"></div>
+</body>
+</html>

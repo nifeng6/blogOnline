@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script th:src="@{/js/jquery-3.4.1.js}"></script>
+    <script th:src="@{/js/vue.js}"></script>
+    <script th:src="@{/lib/bootstrap/js/bootstrap.js}"></script>
+
+    <link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <script th:src="@{/js/jqPaginator.js}"></script>
+    <script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
+    <script src="https://cdn.bootcss.com/codemirror/5.48.2/codemirror.js"></script>
+    <script src="https://cdn.bootcss.com/codemirror/5.48.2/mode/shell/shell.js"></script>
+    <script src="https://cdn.bootcss.com/codemirror/5.48.2/mode/perl/perl.js"></script>
+    <script src="https://cdn.bootcss.com/codemirror/5.48.2/mode/python/python.js"></script>
+    <script src="https://cdn.bootcss.com/codemirror/5.48.2/mode/clike/clike.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/codemirror/5.48.2/codemirror.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/codemirror/5.48.2/theme/3024-night.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/codemirror/5.48.2/theme/erlang-dark.css">
+    <title>代码在线编辑,代码在线运行,在线编程  - 倪风的博客</title>
+</head>
+<body>
+<div th:replace="index/command :: nav"></div>
+
+<!-- 主体 -->
+<div class="container">
+    <div class="panel  panel-default">
+        <div class="panel-heading" style="padding: 10px 15px;">
+            <form style="margin: 0;">
+                <button class="btn btn-success" id="test-code" type="button">点击运行</button>
+                <button class="btn btn-default" id="clear-code" type="button">清空</button>
+
+                <div class="" style="display: inline-block;margin-left: 10px;">
+                    <!--选择脚本风格代码-->
+                    <div class="controls" lay-verify="">
+                        <select id='select' class="form-control">
+                            <option selected>default</option>
+                            <option>3024-night</option>
+                            <option>erlang-dark</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="" style="display: inline-block;margin-left: 10px;">
+                    <!--选择脚本风格代码-->
+                    <div class="controls" lay-verify="">
+                        <select id='code_lun' class="form-control">
+                            <option selected>python</option>
+                            <option>JAVA</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="panel-body row" style="padding:10px 15px 40px 15px;">
+            <div class="col-md-7" style="margin: 0;padding: 0px 15px;">
+<textarea id="code2" name="desc" placeholder="请输入内容" style="height: 350px;display: none">
+class Untitled {
+	public static void main(String[] args) {
+		System.out.println("Hello codetip.net");
+	}
+}
+</textarea>
+                <textarea class="form-control" id="script_once_code" name="code" style="display: none;height: 350px;" rows="18">
+print("Hello, codetip.net");
+</textarea>
+            </div>
+            <div class="col-md-5" style="margin: 0;padding: 0px 15px;">
+                <textarea  name="desc" placeholder="请输入内容" class="form-control" style="height: 350px;" id="code-result"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="index/command :: footer"></div>
+<script>
+    $(".navtitle").each(function () {
+        if ($(this).text()=="在线编程"){
+            $(this).addClass("active")
+        }
+    })
+    //根据DOM元素的id构造出一个编辑器
+    var editor = CodeMirror.fromTextArea(document.getElementById("script_once_code"), {
+        mode: "python", //实现Java代码高亮
+        lineNumbers: true,
+        theme: "default",
+        lineWrapping: true, //是否强制换行
+        extraKeys:{"Ctrl-Space":"autocomplete"}//ctrl-space唤起智能提示
+    });
+    editor.setSize('auto','350px');
+    $('#select').change(function () {
+        var theme = $('#select').val();
+        editor.setOption("theme", theme); //editor.setOption()为codeMirror提供的设置风格的方法
+    });
+
+
+    //选择脚本类型JS
+    var txt1 = $("#script_once_code").val();
+    var txt2 = $("#code2").val();
+    $("#code_lun").click(function () {
+        var txt = editor.getValue(); //editor.getValue()获取textarea中的值
+        var code_lun = $("#code_lun").val();
+        if (code_lun == "python") {
+            editor.setOption("mode", "python");//editor.setOption()设置脚本类型
+            editor.setValue(txt1);// editor.setValue()设置textarea中的值
+        }
+        else if (code_lun == "JAVA") {
+            editor.setOption("mode", "text/x-java");
+            editor.setValue(txt2);
+        }
+
+    });
+    $(".CodeMirror").addClass("form-control");
+    $(".CodeMirror").css("padding","0");
+    $("#clear-code").click(function () {
+        editor.setValue("");
+        $("#code-result").val("");
+    });
+    $("#test-code").click(function () {
+        var code = editor.getValue(); //editor.getValue()获取textarea中的值
+        var codetype = $("#code_lun").val();
+        $("#code-result").val("操作执行中...");
+
+        $.ajax({
+            url:'/tools/testCode',
+            data:{"s":code,"codeType":codetype},
+            type:"post",
+            success:function (result) {
+                if (result.success){
+                    $("#code-result").val(result.code);
+                }else {
+                    $("#code-result").val("操作异常!!!");
+                }
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

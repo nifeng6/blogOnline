@@ -1,0 +1,35 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script th:src="@{/js/jquery-3.4.1.js}"></script>
+    <script th:src="@{/js/vue.js}"></script>
+    <script th:src="@{/lib/bootstrap/js/bootstrap.js}"></script>
+    <link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <script th:src="@{/js/jqPaginator.js}"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-1032796524776123",
+            enable_page_level_ads: true
+        });
+    </script>
+    <title>首页 - 倪风的博客</title>
+</head>
+<body>
+<div th:replace="index/command :: nav"></div>
+
+<div th:replace="index/command :: footer"></div>
+<script>
+    window.location.href="/discuss"//未开动，先跳转吧
+    $(".navtitle").each(function () {
+        if ($(this).text()=="首页"){
+            $(this).addClass("active")
+        }
+    })
+</script>
+</body>
+</html>

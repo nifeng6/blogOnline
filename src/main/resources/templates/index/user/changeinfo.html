@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script th:src="@{/js/jquery-3.4.1.js}"></script>
+    <script th:src="@{/js/vue.js}"></script>
+    <script th:src="@{/lib/bootstrap/js/bootstrap.js}"></script>
+    <script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
+    <link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/user.css}">
+    <script th:src="@{/js/jqPaginator.js}"></script>
+    <title>倪风 - 用户中心</title>
+</head>
+<body>
+<div th:replace="index/command :: nav"></div>
+
+    <div class="main container">
+        <div th:replace="index/user/index :: left"></div>
+        <div class="col-md-10 col-sm-9 col-xs-9">
+            <div class="i-content">
+                <div class="title" style="margin-bottom:20px;"> 修改资料</div>
+                <form class="form-horizontal" style="width: 70%;">
+                    <div class="form-group">
+                        <span for="name" class="col-sm-2 control-label">我的昵称</span>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" th:value="${user.name}" id="name" placeholder="昵称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <span for="intro" class="col-sm-2 control-label">我的简介</span>
+                        <div class="col-sm-10">
+                            <textarea type="text" class="form-control" th:text="${user.intro}" th:if="${user.intro} != null" id="intro" placeholder="我的简介"></textarea>
+                            <textarea type="text" class="form-control" th:if="${user.intro} == null" id="intro" placeholder="我的简介"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <span for="intro" class="col-sm-2 control-label">性别</span>
+                        <div class="col-sm-10">
+                            <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="man"> 男
+                            <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="woman"> 女
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <span for="email" class="col-sm-2 control-label">邮箱地址</span>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" th:value="${user.email}" th:if="${user.email} != null" id="email" placeholder="邮箱地址">
+                            <input type="email" class="form-control" th:if="${user.email} == null" id="email" placeholder="邮箱地址">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <span for="phone" class="col-sm-2 control-label">手机号码</span>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" th:value="${user.phone}" th:if="${user.email} != null" id="phone" placeholder="手机号码">
+                            <input type="text" class="form-control" th:if="${user.email} == null" id="phone" placeholder="手机号码">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <a type="button" href="#" class="goChange" style="margin: 0;" onclick="savaUser()">保存信息</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<div th:replace="index/command :: footer"></div>
+<script>
+    $(".user-left").each(function (index) {
+        if ($(this).text().trim()=="我的信息"){
+            $(this).addClass("hover")
+        }
+    })
+    var accessSex = "[[ ${user.sex} ]]";
+    if (accessSex != null){
+        if (accessSex=="男"){
+            $("#inlineRadio2").attr("checked","");
+        }else if (accessSex=="女"){
+            $("#inlineRadio3").attr("checked","");
+        }
+    }
+
+    function savaUser() {
+        var sex = $("input[name='inlineRadioOptions']:checked").val();
+        var name = $("#name").val();
+        var intro = $("#intro").val();
+        var email = $("#email").val();
+        var phone = $("#phone").val();
+        if (sex=="man"){
+            sex="男"
+        }else if (sex=="woman"){
+            sex="女"
+        }
+
+        $.post("/user/changeInfo",{
+            "sex":sex,
+            "name":name,
+            "intro":intro,
+            "email":email,
+            "phone":phone,
+            "id":[[ ${user.id} ]]
+        },function (result){
+            if (result.success){
+                layer.alert("修改成功",function (index) {
+                    window.location.reload();
+                })
+            }else if (result.success==false){
+                layer.msg("修改失败")
+            }
+        })
+
+
+    }
+
+</script>
+</body>
+</html>

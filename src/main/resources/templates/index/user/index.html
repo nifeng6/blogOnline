@@ -1,0 +1,109 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script th:src="@{/js/jquery-3.4.1.js}"></script>
+    <script th:src="@{/js/vue.js}"></script>
+    <script th:src="@{/lib/bootstrap/js/bootstrap.js}"></script>
+    <link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/user.css}">
+    <script th:src="@{/js/jqPaginator.js}"></script>
+ <title>倪风 - 用户中心</title>
+</head>
+<body>
+<div th:replace="index/command :: nav"></div>
+
+    <div class="main container">
+        <div class="col-md-2 col-sm-3 col-xs-3" th:fragment="left">
+            <div class="i-nav left">
+                <ul>
+                    <li class="user-left"> <a th:href="|/user/${user.id}|"> <i class="glyphicon glyphicon-user"></i> 我的信息 </a> </li>
+                    <li class="user-left"> <a th:href="|/user/changeHeadImg/${user.id}|"> <i class="glyphicon glyphicon-camera"></i> 更换头像</a> </li>
+                    <li class="user-left"> <a href="#"> <i class="glyphicon glyphicon-volume-up"></i> 消息通知</a> </li>
+                    <li class="user-left"> <a th:href="|/user/changePwd/${user.id}|"> <i class="glyphicon glyphicon-lock"></i> 修改密码 </a> </li>
+                </ul>
+
+            </div>
+        </div>
+        <div class="col-md-10 col-sm-9 col-xs-9">
+            <div class="i-content">
+                <div class="i-info clearfix">
+                    <span class="imguser" style="position: relative;display: inline-block;overflow: hidden;">
+                        <a class="info-img" th:href="|/user/changeHeadImg/${user.id}|">
+                            <img th:src="${user.img}" onerror="this.src='/img/a3o.png'">
+                        </a>
+                    </span>
+
+
+                    <div class="info-info">
+                        <h3 class="nick"><i class="iconfont icon-nan"></i><span th:text="${user.name}" th:if="${user.name} != null"></span><b class="jp" th:text="${user.userRole}">人才</b></h3>
+                        <p class="intr" th:text="${user.intro}" th:if="${user.intro} != null">初来乍到，请多指教</p>
+                        <p class="intr" th:if="${user.intro} == null">初来乍到，请多指教</p>
+                    </div>
+                </div>
+                <div class="title"> 概括数据 </div>
+                <div class="gaikuo clearfix">
+                    <b th:text="${releaseAsk}">9</b>
+                    <b th:text="${releaseAskAnswer}">4</b>
+                    <b>0</b>
+                    <b>0</b>
+                    <b class="bx"><img src="//static.115z.com/img/tg.png">问答</b>
+                    <b class="bx"><img src="//static.115z.com/img/pl.png">评论</b>
+                    <b class="bx"><img src="//static.115z.com/img/dz.png">待定</b>
+                    <b class="bx"><img src="//static.115z.com/img/sh.png">待定</b>
+                </div>
+                <div class="title"> 我的信息 </div>
+                <ul class="my-info">
+                    <li>
+                        <h3>我的ID (登入名) </h3>
+                        <span th:text="${user.username}">4553df12-01a1-4ec3-ac64-474ccc037b6a</span>
+                    </li>
+                    <li>
+                        <h3>我的昵称</h3>
+                        <span th:text="${user.name}" th:if="${user.name} != null">看爸爸干嘛</span>
+                    </li>
+                    <li>
+                        <h3>介绍</h3>
+                        <span th:text="${user.intro}" th:if="${user.intro} != null">初来乍到，请多指教</span>
+                        <span th:if="${user.intro} == null">初来乍到，请多指教</span>
+                    </li>
+                    <li>
+                        <h3>性别</h3>
+                        <span th:text="${user.sex}" th:if="${user.sex} != null">男</span>
+                        <span th:if="${user.sex} == null">未知</span>
+                    </li>
+                    <li>
+                        <h3>邮箱号码</h3>
+                        <span th:text="${user.email}" th:if="${user.email} != null">暂未绑定</span>
+                        <span th:if="${user.email} == null">您还未设置邮箱！</span>
+                    </li>
+                    <li>
+                        <h3>手机号码</h3>
+                        <span th:text="${user.phone}" th:if="${user.phone} != null">暂未绑定</span>
+                        <span th:if="${user.phone} == null">您还未设置手机号！</span>
+
+                    </li>
+                    <li>
+                        <h3>注册时间</h3>
+                        <span th:text="${#dates.format(user.createDate,'yyyy-MM-dd HH:mm')}">2018-07-24 17:35:34</span>
+                    </li>
+
+                </ul>
+                <a th:href="|/user/changeInfo/${user.id}|" class="goChange">修改资料</a>
+            </div>
+        </div>
+    </div>
+
+<div th:replace="index/command :: footer"></div>
+<script>
+    $(".user-left").each(function (index) {
+        if ($(this).text().trim()=="我的信息"){
+            $(this).addClass("hover")
+        }
+    })
+</script>
+</body>
+</html>

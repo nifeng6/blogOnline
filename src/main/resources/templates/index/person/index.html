@@ -1,0 +1,100 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script th:src="@{/js/jquery-3.4.1.js}"></script>
+    <script th:src="@{/js/vue.js}"></script>
+    <script th:src="@{/lib/bootstrap/js/bootstrap.js}"></script>
+    <link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/person.css}">
+    <script th:src="@{/js/jqPaginator.js}"></script>
+
+    <title th:text="${user.name}+'的个人主页'+' - 倪风的博客'">首页 - 倪风的博客</title>
+</head>
+<body>
+<div th:replace="index/command :: nav"></div>
+
+<div class="container">
+    <div style="border-radius: 10px 10px 0px 0px; height: 320px;background-color: white;">
+        <div style="height: 50%;border-radius: 10px 10px 0px 0px;" class="person-bg">
+
+        </div>
+        <div style="height: 50%;">
+            <div>
+                <img class="img-thumbnail person-img" th:src="${user.img}">
+                <div style="display: inline-block;padding-left: 20px;margin-top: 5px;">
+                    <div>
+                        <h4 style="font-size: 25px;font-weight: bolder;" th:text="${user.name}">曾建徽牛逼</h4>
+                    </div>
+                    <div>
+                        <span class="person-stu glyphicon glyphicon-lock"></span>
+                        <span class="person-stu" th:text="${user.school}" th:if="${user.school} != null">福建信息职业技术学院</span>
+<!--                        <span class="person-stu" th:if="${user.school} == null">暂无</span>-->
+                        <span class="person-stu" style="border-left: 1px solid #eee;" th:text="${user.majoy}" th:if="${user.majoy} != null">暂无</span>
+<!--                        <span class="person-stu" style="border-left: 1px solid #eee;" th:if="${user.majoy} == null">暂无</span>-->
+                    </div>
+                    <div>
+                        <span class="person-stu" th:text="${user.intro}" th:if="${user.intro} != ''">您还为填写个人资料呢！</span>
+                        <span class="person-stu" th:if="${user.intro} == ''">您还为填写个人资料呢！</span>
+
+                    </div>
+
+                </div>
+            </div>
+            <div>
+<!--                <a th:href="|/user/changeInfo/${session.currentUser.id}|" th:if="${user.username} eq ${session.currentUser.username}" type="button" class="btn btn-default " style="float: right;margin-right: 20px;">编辑个人资料</a>-->
+            </div>
+        </div>
+    </div>
+    <div style="height: 200px;margin-top: 15px;">
+        <div class="col-md-9 col-sm-9 col-xs-9" style="background-color: white;                                                                                                                                                                                                                                                       ">
+            <h3 style="padding: 23px;border-bottom: 1px solid #eee;">文章</h3>
+            <ul>
+
+                <li class="boxContent" th:each="ask : ${asks}">
+                    <div>
+                        <a href="/question/21"><div class="title" th:text="${ask.title}">测试</div></a>
+                        <div class="summary"></div>
+                        <div class="user_bar">
+
+                            <div style="margin-top: 10px;">
+                                <span>游览量：<span th:text="${ask.visit}">47</span></span>
+                                <span>发布时间：<span th:text="${ask.create_date}">2019-09-09 14:20</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+
+            </ul>
+            <ul class="pagination" id="pagination2"></ul>
+            <script type="text/javascript">
+                $.jqPaginator('#pagination2', {
+                    totalPages: [[ ${pages} ]],//总页数
+                    visiblePages: 6,//显示数
+                    currentPage: [[ ${page} ]],//默认当前为第几页
+                    prev: '<li class="prev"><a href="/person/[[ ${user.id} ]]?page=[[ ${page}-1 ]]">上一页</a></li>',
+                    next: '<li class="next"><a href="/person/[[ ${user.id} ]]?page=[[ ${page}+1 ]]">下一页</a></li>',
+                    page: '<li class="page"><a href="/person/[[ ${user.id} ]]?page={{page}}" class="test2">{{page}}</a></li>',
+                    onPageChange: function (num, type) {
+
+                    }
+                });
+
+
+
+            </script>
+        </div>
+        <div style="background-color: white;height: 100%;width: 24%;float: right;">
+            <h3 style="margin: 15px;">个人成就</h3>
+            <hr>
+            <h4 style="text-align: center;padding-top: 25px;"><span>🔥</span>获得过100次赞！</h4>
+        </div>
+    </div>
+</div>
+
+<div th:replace="index/command :: footer"></div>
+</body>
+</html>

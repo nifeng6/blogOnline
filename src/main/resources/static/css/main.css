@@ -1,0 +1,64 @@
+li{list-style: none;}
+ul{margin: 0;padding: 0;}
+a{text-decoration: none;}
+h3{margin: 0}
+
+
+.main{
+    /*width:1200px;*/
+    margin: 0 auto;
+    display: -webkit-box;
+    background-color: white;
+    border-radius: 20px;
+}
+
+body{
+    /*min-width: 1116px;*/
+    line-height: 24px;
+    font-size: 16px;
+    background-image: url(/images/bg.jpg);
+}
+
+.main-right{
+    float: right;
+    border-left: 1px solid #eee;
+}
+
+/* 尾部导航 */
+#footer{
+    display: inline-block;
+    /* height: 500px; */
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+    /*background-color: #323342;*/
+    color: #bbbbbb;
+    padding: 30px 0px;
+    line-height: 22px;
+}
+
+#navTop{
+    min-width: 1024px;
+    margin: 10px auto;
+    width: 75%;
+
+}
+
+#footer a{
+    margin-left: 5px;
+    text-decoration: #666;
+    color:#bbbbbb;
+    font-size: .7em;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    z-index: 3;
+    color: #fff;
+    cursor: default;
+    background-color: #00a8e6;
+    border-color: #00a8e6;
+}
+.btn-primary{
+    background-color: #00a8e6;
+    border-color: #00a8e6;
+}
