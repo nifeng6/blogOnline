@@ -13,5 +13,4 @@ public class BlogApplication  extends SpringBootServletInitializer {
         SpringApplication.run(BlogApplication.class, args);
 
     }
-
 }
