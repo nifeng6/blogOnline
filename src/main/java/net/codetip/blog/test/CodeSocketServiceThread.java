@@ -6,9 +6,7 @@ import java.net.Socket;
 import java.util.UUID;
 
 public class CodeSocketServiceThread extends Thread {
-    public static void main(String[] args) {
-        new CodeSocketServiceThread().start();
-    }
+
 
 
 
@@ -16,7 +14,7 @@ public class CodeSocketServiceThread extends Thread {
     public void run() {
         ServerSocket serverSocket = null;
         try {
-            serverSocket = new ServerSocket(9000);
+            serverSocket = new ServerSocket(9008);
             while (true) {
                 Socket accept = serverSocket.accept();
                 System.out.println("接收到一个数据来自：" + accept.getInetAddress());
@@ -44,7 +42,7 @@ class CodeSocketContent extends Thread {
     }
 
     @Override
-    public void run() {
+    public void run() { //运行且编译的程序
         InputStream inputStream = null;
         OutputStream outputStream = null;
         StringBuilder sb = new StringBuilder();

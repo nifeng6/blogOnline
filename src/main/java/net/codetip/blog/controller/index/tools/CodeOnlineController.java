@@ -23,13 +23,20 @@ public class CodeOnlineController {
     @RequestMapping("/tools/testCode")
     @ResponseBody
     public JSONObject testCode(String s, String codeType)throws Exception{
+        System.out.println(codeType);
         JSONObject result = new JSONObject();
         try {
             //中间部分为Socket
             Socket socket = null;
-            String Code_Adress = "127.0.0.1";
-            if (codeType.equals("python")){
-                socket = new Socket(Code_Adress,9000);
+            String Code_Adress = "103.45.178.173";
+            if (codeType.equals("python3")){
+                socket = new Socket(Code_Adress,9008);
+            }else if(codeType.equals("python2")){
+                Code_Adress = "103.45.178.173";
+                socket = new Socket(Code_Adress,9009);
+            }else if(codeType.equals("JAVA")){
+                Code_Adress = "103.45.178.173";
+                socket = new Socket(Code_Adress,9021);
             }
             OutputStream outputStream = socket.getOutputStream();
             InputStream inputStream = socket.getInputStream();

@@ -20,10 +20,6 @@
         $(".w-e-button-container .right").on("click",function () {
 alert(1111)
         })
-        $(".test2").css("background","red")
-        function test1() {
-
-        }
     </script>
 
 
@@ -32,7 +28,6 @@ alert(1111)
 
 <body>
 <div th:replace="index/command :: nav"></div>
-<button onclick="test1()"></button>
 <div class="main container">
     <div class="col-md-9 col-sm-12 col-xs-12" style="padding: 20px;">
         <h3>
@@ -169,8 +164,9 @@ alert(1111)
 
 <script>
     function askbtn() {
-        var html = document.querySelector('#editor').children[0].innerHTML;
-        var areaContent = '<div class="ql-container ql-snow"><div class="ql-editor">'+html+"</div></div>";
+        // alert(111)
+        // var html = document.querySelector('#editor').children[0].innerHTML;
+        var areaContent = editor.txt.html();
 
         var title = $("#title").val();
         // var areaContent = $("#areaContent").val();
